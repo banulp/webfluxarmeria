@@ -16,7 +16,9 @@
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>11</java.version>
-<!--        <java.version>17</java.version>-->
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     <dependencies>
         <dependency>
@@ -30,6 +32,23 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb-reactive</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
+        <!-- etc -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- test -->
+        <dependency>
             <groupId>com.linecorp.armeria</groupId>
             <artifactId>armeria-spring-boot2-actuator-starter</artifactId>
         </dependency>
@@ -39,6 +58,82 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <!-- S armeria -->
+<!--        <dependency>-->
+<!--            <groupId>com.linecorp.armeria</groupId>-->
+<!--            <artifactId>armeria</artifactId>-->
+<!--            <version>1.20.3</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.linecorp.armeria</groupId>-->
+<!--            <artifactId>armeria-brave</artifactId>-->
+<!--            <version>1.20.3</version>-->
+<!--        </dependency>-->
+        <dependency>
+            <groupId>com.linecorp.armeria</groupId>
+            <artifactId>armeria-grpc</artifactId>
+            <version>1.20.3</version>
+        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>com.linecorp.armeria</groupId>-->
+<!--            <artifactId>armeria-jetty9</artifactId>-->
+<!--            <version>1.20.3</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.linecorp.armeria</groupId>-->
+<!--            <artifactId>armeria-kafka</artifactId>-->
+<!--            <version>1.20.3</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.linecorp.armeria</groupId>-->
+<!--            <artifactId>armeria-logback</artifactId>-->
+<!--            <version>1.20.3</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.linecorp.armeria</groupId>-->
+<!--            <artifactId>armeria-retrofit2</artifactId>-->
+<!--            <version>1.20.3</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.linecorp.armeria</groupId>-->
+<!--            <artifactId>armeria-rxjava3</artifactId>-->
+<!--            <version>1.20.3</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.linecorp.armeria</groupId>-->
+<!--            <artifactId>armeria-saml</artifactId>-->
+<!--            <version>1.20.3</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.linecorp.armeria</groupId>-->
+<!--            <artifactId>armeria-thrift0.13</artifactId>-->
+<!--            <version>1.20.3</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.linecorp.armeria</groupId>-->
+<!--            <artifactId>armeria-tomcat9</artifactId>-->
+<!--            <version>1.20.3</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.linecorp.armeria</groupId>-->
+<!--            <artifactId>armeria-zookeeper3</artifactId>-->
+<!--            <version>1.20.3</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; Logging &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>ch.qos.logback</groupId>-->
+<!--            <artifactId>logback-classic</artifactId>-->
+<!--            <version>1.2.11</version>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>org.slf4j</groupId>-->
+<!--            <artifactId>log4j-over-slf4j</artifactId>-->
+<!--            <version>1.7.36</version>-->
+<!--            <scope>runtime</scope>-->
+<!--        </dependency>-->
+        <!-- E armeria -->
     </dependencies>
 
     <dependencyManagement>
@@ -61,7 +156,41 @@
     </dependencyManagement>
 
     <build>
+        <extensions>
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>1.4.1.Final</version>
+            </extension>
+        </extensions>
         <plugins>
+            <plugin>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <version>0.5.0</version>
+                <configuration>
+                    <protocArtifact>com.google.protobuf:protoc:3.3.0:exe:${os.detected.classifier}</protocArtifact>
+                    <pluginId>grpc-java</pluginId>
+                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.4.0:exe:${os.detected.classifier}</pluginArtifact>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>compile-custom</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>

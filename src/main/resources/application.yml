@@ -1,4 +1,4 @@
-spring.profiles.active: local
+
 server:
 #  port: 8443
   port: 8080
@@ -14,3 +14,10 @@ server:
 #    - proxy
 #  - port: 8080    # Port 8080 will serve only HTTP.
 #    protocols: http
+
+spring:
+  profiles:
+    active: local
+  data:
+    mongodb:
+      uri: mongodb://local:0000/webfluxgrpctest

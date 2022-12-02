@@ -1,7 +1,8 @@
-package com.example.demo;
+package com.banulp.grpc.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClient.Builder;
@@ -46,4 +47,5 @@ public class HelloController {
     String hello() {
         return "Hello, World";
     }
+
 }

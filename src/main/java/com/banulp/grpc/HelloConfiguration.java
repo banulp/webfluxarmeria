@@ -1,16 +1,13 @@
-package com.example.demo;
+package com.banulp.grpc;
 
-import com.linecorp.armeria.client.ClientFactory;
-import com.linecorp.armeria.client.ClientFactoryBuilder;
-import com.linecorp.armeria.client.HttpClient;
-import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerClient;
-import com.linecorp.armeria.client.circuitbreaker.CircuitBreakerRule;
+import com.banulp.grpc.repository.UserBlogRepository;
 import com.linecorp.armeria.server.Server;
 import com.linecorp.armeria.server.docs.DocService;
+import com.linecorp.armeria.server.grpc.GrpcService;
 import com.linecorp.armeria.server.logging.AccessLogWriter;
 import com.linecorp.armeria.server.logging.LoggingService;
 import com.linecorp.armeria.spring.ArmeriaServerConfigurator;
-import com.linecorp.armeria.spring.web.reactive.ArmeriaClientConfigurator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -20,6 +17,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class HelloConfiguration {
 
+    @Autowired
+    private UserBlogRepository userBlogRepository;
     /**
      * A user can configure a {@link Server} by providing an {@link ArmeriaServerConfigurator} bean.
      */
@@ -40,6 +39,21 @@ public class HelloConfiguration {
             // builder.annotatedService("/rest", service);
             // builder.service("/thrift", THttpService.of(...));
             // builder.service(GrpcService.builder()...build());
+
+            BlogService blogService = new BlogService();
+            blogService.setUserBlogRepository(userBlogRepository);
+
+            GrpcService grpcService = GrpcService.builder()
+//                    .addService(new BlogService())
+                    .addService(blogService)
+//                    .exceptionMapping(new GrpcExceptionHandler())
+                    // All service methods will be run within
+                    // the blocking executor.
+                    // 이러면 grpc 쓰는 의미가 있나
+//                    .useBlockingTaskExecutor(true)
+                    .build();
+
+            builder.service(grpcService);
         };
     }
 
