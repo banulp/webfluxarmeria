@@ -15,32 +15,32 @@ import javax.inject.Inject;
 @RestController
 public class HelloController {
 
-    private final WebClient webClient;
-
-    /**
-     * The given {@link Builder} has been configured to have an {@code ArmeriaClientHttpConnector} as
-     * its client connector.
-     */
-    @Inject
-    public HelloController(Builder builder,
-                           @Value("${server.port}") int port) {
-        this(builder.baseUrl("https://127.0.0.1:" + port).build());
-    }
-
-    HelloController(WebClient webClient) {
-        this.webClient = webClient;
-    }
-
-    /**
-     * Returns a string which is retrieved from {@code /hello} using the {@link WebClient}.
-     */
-    @GetMapping("/")
-    Mono<String> index() {
-        return webClient.get()
-                        .uri("/hello")
-                        .retrieve()
-                        .bodyToMono(String.class);
-    }
+//    private final WebClient webClient;
+//
+//    /**
+//     * The given {@link Builder} has been configured to have an {@code ArmeriaClientHttpConnector} as
+//     * its client connector.
+//     */
+//    @Inject
+//    public HelloController(Builder builder,
+//                           @Value("${server.port}") int port) {
+//        this(builder.baseUrl("https://127.0.0.1:" + port).build());
+//    }
+//
+//    HelloController(WebClient webClient) {
+//        this.webClient = webClient;
+//    }
+//
+//    /**
+//     * Returns a string which is retrieved from {@code /hello} using the {@link WebClient}.
+//     */
+//    @GetMapping("/")
+//    Mono<String> index() {
+//        return webClient.get()
+//                        .uri("/hello")
+//                        .retrieve()
+//                        .bodyToMono(String.class);
+//    }
 
     @GetMapping("/hello")
     String hello() {

@@ -43,35 +43,35 @@ public class HelloConfiguration {
         };
     }
 
-    /**
-     * Returns a custom {@link ClientFactory} with TLS certificate validation disabled,
-     * which means any certificate received from the server will be accepted without any verification.
-     * It is used for an example which makes the client send an HTTPS request to the server running
-     * on localhost with a self-signed certificate. Do NOT use the {@link ClientFactory#insecure()} or
-     * {@link ClientFactoryBuilder#tlsNoVerify()} in production.
-     */
-    @Bean
-    public ClientFactory clientFactory() {
-        return ClientFactory.insecure();
-    }
-
-    /**
-     * A user can configure an {@link HttpClient} by providing an {@link ArmeriaClientConfigurator} bean.
-     */
-    @Bean
-    public ArmeriaClientConfigurator armeriaClientConfigurator(ClientFactory clientFactory) {
-        // Customize the client using the given WebClientBuilder. For example:
-        return builder -> {
-            // Use a circuit breaker for each remote host.
-            final CircuitBreakerRule rule = CircuitBreakerRule.builder()
-                                                              .onServerErrorStatus()
-                                                              .onException()
-                                                              .thenFailure();
-            builder.decorator(CircuitBreakerClient.builder(rule)
-                                                  .newDecorator());
-
-            // Set a custom client factory.
-            builder.factory(clientFactory);
-        };
-    }
+//    /**
+//     * Returns a custom {@link ClientFactory} with TLS certificate validation disabled,
+//     * which means any certificate received from the server will be accepted without any verification.
+//     * It is used for an example which makes the client send an HTTPS request to the server running
+//     * on localhost with a self-signed certificate. Do NOT use the {@link ClientFactory#insecure()} or
+//     * {@link ClientFactoryBuilder#tlsNoVerify()} in production.
+//     */
+//    @Bean
+//    public ClientFactory clientFactory() {
+//        return ClientFactory.insecure();
+//    }
+//
+//    /**
+//     * A user can configure an {@link HttpClient} by providing an {@link ArmeriaClientConfigurator} bean.
+//     */
+//    @Bean
+//    public ArmeriaClientConfigurator armeriaClientConfigurator(ClientFactory clientFactory) {
+//        // Customize the client using the given WebClientBuilder. For example:
+//        return builder -> {
+//            // Use a circuit breaker for each remote host.
+//            final CircuitBreakerRule rule = CircuitBreakerRule.builder()
+//                                                              .onServerErrorStatus()
+//                                                              .onException()
+//                                                              .thenFailure();
+//            builder.decorator(CircuitBreakerClient.builder(rule)
+//                                                  .newDecorator());
+//
+//            // Set a custom client factory.
+//            builder.factory(clientFactory);
+//        };
+//    }
 }
